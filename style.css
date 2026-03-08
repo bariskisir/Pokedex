@@ -104,7 +104,7 @@ body {
   border-radius: 10px;
   position: relative;
   box-shadow: inset -5px -5px 0 rgba(0, 0, 0, 0.2), inset 5px 5px 0 rgba(255, 255, 255, 0.2);
-  padding: 15px;
+  padding: 12px;
   z-index: 10;
   pointer-events: auto !important;
   display: flex;
@@ -116,7 +116,7 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 5px;
+  margin-bottom: 2px;
   padding-bottom: 5px;
   border-bottom: 4px solid var(--dark-red);
   -webkit-app-region: drag;
@@ -200,6 +200,7 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .screen-lights {
@@ -237,8 +238,7 @@ body {
   justify-content: flex-start;
   align-items: center;
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
   min-height: 0;
 }
 
@@ -274,6 +274,18 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 5px;
+}
+
+.pokemon-data::-webkit-scrollbar {
+  width: 4px;
+}
+
+.pokemon-data::-webkit-scrollbar-thumb {
+  background: #2a3a3a;
+  border-radius: 2px;
 }
 
 .image-container {
@@ -282,6 +294,7 @@ body {
   align-items: center;
   justify-content: center;
   margin-bottom: 5px;
+  flex-shrink: 0;
 }
 
 .image-container img {
@@ -340,6 +353,109 @@ body {
   padding: 3px 6px;
   border-radius: 5px;
   text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.1s, filter 0.1s;
+}
+
+.type-badge:hover {
+  transform: scale(1.05);
+  filter: brightness(1.2);
+}
+
+/* Type List Screen */
+#type-list-screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.type-list-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+  border-bottom: 2px dashed rgba(0, 0, 0, 0.3);
+  padding-bottom: 10px;
+  flex-shrink: 0;
+}
+
+#type-list-back {
+  font-size: 20px;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.2);
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+#type-list-back:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+#type-list-title {
+  font-size: 14px;
+  text-transform: uppercase;
+  flex: 1;
+}
+
+#type-pokemon-list {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  grid-auto-rows: min-content;
+  gap: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 60px;
+  min-height: 0;
+}
+
+#type-pokemon-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+#type-pokemon-list::-webkit-scrollbar-thumb {
+  background: #2a3a3a;
+  border-radius: 2px;
+}
+
+.type-pkmn-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.1s;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 5px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.type-pkmn-item:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.type-pkmn-item img {
+  width: 40px;
+  height: 40px;
+  image-rendering: pixelated;
+}
+
+.type-pkmn-item span {
+  font-size: 6px;
+  margin-top: 4px;
+  text-transform: uppercase;
+  color: #111;
+  word-break: break-word;
 }
 
 .abilities-container {
@@ -397,6 +513,13 @@ body {
   color: white;
   border: 1px solid rgba(0, 0, 0, 0.1);
   font-size: 8px;
+  cursor: pointer;
+  transition: transform 0.1s, filter 0.1s;
+}
+
+.eff-card:hover {
+  transform: scale(1.05);
+  filter: brightness(1.2);
 }
 
 .eff-card.strength {
@@ -408,7 +531,7 @@ body {
 }
 
 .flavor-text {
-  font-size: 8px;
+  font-size: 7px;
   line-height: 1.2;
   color: #111;
   margin: 5px 0;
@@ -417,7 +540,7 @@ body {
 .stats-row {
   display: flex;
   justify-content: space-around;
-  font-size: 10px;
+  font-size: 8px;
   margin-top: 2px;
   margin-bottom: 5px;
 }
@@ -500,13 +623,13 @@ body {
   padding-top: 5px;
   text-align: left;
   flex: none;
-  height: 78px;
+  max-height: 58px;
   overflow-y: auto;
-  transition: height 0.3s ease;
+  transition: max-height 0.3s ease;
 }
 
 .moves-container.full-height {
-  height: 160px;
+  max-height: 160px;
 }
 
 .moves-container::-webkit-scrollbar {
@@ -633,13 +756,13 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 4px;
   padding: 0 10px;
 }
 
 .screen-speaker {
   width: 40px;
-  height: 25px;
+  height: 18px;
   background: repeating-linear-gradient(transparent, transparent 2px, #444 2px, #444 4px);
   border-radius: 3px;
   transition: all 0.2s ease;
@@ -669,7 +792,7 @@ body {
   align-items: center;
   padding: 0 5px;
   margin-top: auto;
-  padding-bottom: 5px;
+  padding-bottom: 2px;
 }
 
 .black-btn.circle {

@@ -63,6 +63,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const topLens = document.querySelector('.big-blue-glass');
     const smallLights = document.querySelectorAll('.small-lights .light');
     const screenSpeaker = document.querySelector('.screen-speaker');
+    const typeListScreen = document.getElementById('type-list-screen');
+    const typeListBack = document.getElementById('type-list-back');
+    const typeListTitle = document.getElementById('type-list-title');
+    const typePokemonListEl = document.getElementById('type-pokemon-list');
 
     let allPokemon = [];
     const pokemonCache = new Map();
@@ -117,6 +121,61 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    if (typeListBack) {
+        typeListBack.addEventListener('click', () => {
+            typeListScreen.style.display = 'none';
+            pkmnDataContainer.style.display = 'block';
+            pkmnDataContainer.scrollTop = 0;
+        });
+    }
+
+    const loadPokemonByType = async (typeName) => {
+        try {
+            pkmnDataContainer.style.display = 'none';
+            typeListScreen.style.display = 'flex';
+            typePokemonListEl.scrollTop = 0;
+            typeListTitle.innerText = `${typeName.toUpperCase()} POKéMON`;
+            typePokemonListEl.innerHTML = '<div style="grid-column: 1/-1; text-align: center;">Loading...</div>';
+
+            const res = await fetch(`https://pokeapi.co/api/v2/type/${typeName}`);
+            const data = await res.json();
+
+            typePokemonListEl.innerHTML = '';
+
+            // PokéAPI type endpoint returns { pokemon: [ { pokemon: { name, url } } ] }
+            const typePokemon = data.pokemon.map(p => p.pokemon);
+
+            for (const p of typePokemon) {
+                const urlParts = p.url.split('/');
+                const id = urlParts[urlParts.length - 2];
+                // We need the displayId from allPokemon if available, otherwise use API id
+                const listRef = allPokemon.find(ap => ap.name === p.name);
+                const displayId = listRef ? listRef.displayId : id;
+
+                const item = document.createElement('div');
+                item.className = 'type-pkmn-item';
+                // Using a fallback for missing sprites (especially for Megas/forms > 10000)
+                const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
+                const fallbackUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png`;
+
+                item.innerHTML = `
+                    <img src="${spriteUrl}" alt="${p.name}" onerror="this.src='${fallbackUrl}'; this.style.opacity='0.5';">
+                    <span>${p.name.replace('-', ' ')}</span>
+                `;
+                item.addEventListener('click', () => {
+                    loadPokemon(id, displayId);
+                    typeListScreen.style.display = 'none';
+                    pkmnDataContainer.style.display = 'block';
+                    pkmnDataContainer.scrollTop = 0;
+                });
+                typePokemonListEl.appendChild(item);
+            }
+        } catch (error) {
+            console.error(error);
+            typePokemonListEl.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: red;">Error loading type list</div>';
+        }
+    };
 
     const renderPokemonImage = (pkmnData) => {
         const standardImg = pkmnData.sprites.other['official-artwork'].front_default || pkmnData.sprites.front_default || '';
@@ -239,6 +298,15 @@ document.addEventListener('DOMContentLoaded', () => {
         pkmnWeight.innerText = `WT: ${pkmnData.weight / 10}kg`;
 
         pkmnTypes.innerHTML = pkmnData.types.map(t => `<span class="type-badge ${t.type.name}">${t.type.name}</span>`).join('');
+
+        // Add click listeners to type badges
+        pkmnTypes.querySelectorAll('.type-badge').forEach(badge => {
+            badge.addEventListener('click', (e) => {
+                const typeName = e.target.innerText.toLowerCase();
+                loadPokemonByType(typeName);
+            });
+        });
+
         renderAbilities(pkmnData.abilities);
         renderEffectiveness(typeDetails);
         renderStats(pkmnData.stats);
@@ -347,6 +415,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const card = document.createElement('span');
                 card.className = `eff-card ${label === 'WEAK' ? 'weakness' : 'strength'}`;
                 card.innerText = `${t}${multipliers[t] !== 2 && multipliers[t] !== 0.5 && multipliers[t] !== 1 ? ' x' + multipliers[t] : ''}`;
+
+                card.addEventListener('click', () => {
+                    loadPokemonByType(t);
+                });
+
                 row.appendChild(card);
             });
             pkmnEffectiveness.appendChild(row);
