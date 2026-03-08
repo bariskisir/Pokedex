@@ -1,10 +1,12 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 
+app.setPath('userData', path.join(__dirname, '.electron-data'));
+
 function createWindow() {
     const win = new BrowserWindow({
         width: 900,
-        height: 650,
+        height: 700,
         resizable: false,
         transparent: true,
         frame: false,

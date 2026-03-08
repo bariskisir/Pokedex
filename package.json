@@ -1,6 +1,6 @@
 {
   "name": "pokedex-electron",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A professional Electron Pokédex with retro aesthetics.",
   "type": "module",
   "main": "main.cjs",

@@ -34,8 +34,9 @@ You can install and run the Pokedex directly using NPM without cloning the repos
     npm install
     ```
 
-3.  **Run the application:**
+3.  **Run the Electron application:**
     ```bash
+    # This will launch the Pokedex as a desktop application
     npm start
     ```
 

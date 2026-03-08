@@ -4,7 +4,7 @@
   --screen-bg: #809696;
   --border-color: #222;
   --panel-width: 360px;
-  --panel-height: 600px;
+  --panel-height: 650px;
 }
 
 * {
@@ -287,6 +287,37 @@ body {
 .image-container img {
   max-height: 100%;
   image-rendering: pixelated;
+  transition: transform 0.2s ease;
+}
+
+#shiny-toggle {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  cursor: pointer;
+  font-size: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  z-index: 5;
+  transition: all 0.2s;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+#shiny-toggle:hover {
+  background: rgba(255, 255, 255, 0.6);
+  transform: scale(1.1);
+}
+
+#shiny-toggle.active {
+  background: #ffecb3;
+  border-color: #ffc107;
+  box-shadow: 0 0 8px #ffc107;
 }
 
 #pkmn-name {
@@ -309,6 +340,29 @@ body {
   padding: 3px 6px;
   border-radius: 5px;
   text-transform: uppercase;
+}
+
+.abilities-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  justify-content: center;
+  margin: 2px 0;
+}
+
+.ability-badge {
+  font-size: 5px;
+  background: #f0f0f0;
+  border: 1px solid #999;
+  padding: 1px 3px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  color: #333;
+}
+
+.ability-badge.hidden {
+  border-style: dashed;
+  color: #666;
 }
 
 #pkmn-effectiveness {
@@ -368,6 +422,78 @@ body {
   margin-bottom: 5px;
 }
 
+.stats-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 5px;
+  padding: 0 10px;
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+}
+
+.stat-label {
+  font-size: 5px;
+  width: 25px;
+  text-align: right;
+  color: #333;
+  text-transform: uppercase;
+}
+
+.stat-bar-bg {
+  flex: 1;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.stat-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: #4caf50;
+  transition: width 0.5s ease-out;
+}
+
+.stat-value {
+  font-size: 5px;
+  width: 20px;
+  text-align: left;
+  color: #111;
+}
+
+/* Stat colors */
+.stat-hp .stat-bar-fill {
+  background: #ff5959;
+}
+
+.stat-atk .stat-bar-fill {
+  background: #f5ac78;
+}
+
+.stat-def .stat-bar-fill {
+  background: #fae078;
+}
+
+.stat-spa .stat-bar-fill {
+  background: #9db7f5;
+}
+
+.stat-spd .stat-bar-fill {
+  background: #a7db8d;
+}
+
+.stat-spe .stat-bar-fill {
+  background: #fa92b2;
+}
+
 .moves-container {
   width: 100%;
   border-top: 2px dashed rgba(0, 0, 0, 0.3);
@@ -376,7 +502,11 @@ body {
   flex: none;
   height: 78px;
   overflow-y: auto;
-  overflow-x: hidden;
+  transition: height 0.3s ease;
+}
+
+.moves-container.full-height {
+  height: 160px;
 }
 
 .moves-container::-webkit-scrollbar {
@@ -428,12 +558,19 @@ body {
   margin-top: 5px;
   text-align: center;
   flex: none;
+  max-height: 160px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .evolution-container h3 {
   font-size: 10px;
   margin-bottom: 5px;
   color: #111;
+  position: sticky;
+  top: 0;
+  background: var(--screen-bg);
+  z-index: 1;
 }
 
 #pokemon-evolutions {
@@ -442,6 +579,7 @@ body {
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
+  padding-bottom: 5px;
 }
 
 .evo-item {
@@ -471,6 +609,21 @@ body {
   color: #333;
 }
 
+.evo-item.scaled {
+  transform: scale(0.7);
+  /* Using 0.7 instead of 0.5 because 0.5 is too small to read */
+  margin: -5px;
+}
+
+.evo-item.scaled:hover {
+  transform: scale(0.8);
+}
+
+.evo-arrow.scaled {
+  font-size: 8px;
+  margin: 0 -2px;
+}
+
 .evo-arrow {
   font-size: 10px;
   color: #444;
@@ -489,6 +642,25 @@ body {
   height: 25px;
   background: repeating-linear-gradient(transparent, transparent 2px, #444 2px, #444 4px);
   border-radius: 3px;
+  transition: all 0.2s ease;
+}
+
+.screen-speaker.playing {
+  animation: speaker-pulse 0.4s infinite alternate;
+  background: repeating-linear-gradient(transparent, transparent 2px, #28aadc 2px, #28aadc 4px);
+  box-shadow: 0 0 10px rgba(40, 170, 220, 0.5);
+}
+
+@keyframes speaker-pulse {
+  from {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+
+  to {
+    transform: scale(1.05);
+    opacity: 1;
+  }
 }
 
 .controls {

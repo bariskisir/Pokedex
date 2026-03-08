@@ -57,11 +57,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const pkmnDataContainer = document.querySelector('.pokemon-data');
     const pokemonMovesEl = document.getElementById('pokemon-moves');
     const pokemonEvolutionsEl = document.getElementById('pokemon-evolutions');
+    const pkmnAbilitiesEl = document.getElementById('pkmn-abilities');
+    const pkmnStatsEl = document.getElementById('pkmn-stats');
+    const shinyToggleBtn = document.getElementById('shiny-toggle');
     const topLens = document.querySelector('.big-blue-glass');
     const smallLights = document.querySelectorAll('.small-lights .light');
+    const screenSpeaker = document.querySelector('.screen-speaker');
 
     let allPokemon = [];
     const pokemonCache = new Map();
+    let isShiny = false;
+    let currentPokemonData = null;
 
     const playLights = () => {
         let count = 0;
@@ -75,6 +81,47 @@ document.addEventListener('DOMContentLoaded', () => {
                 smallLights.forEach(l => l.classList.remove('flash'));
             }
         }, 300);
+    };
+
+    let currentAudio = null;
+
+    const playPokemonCry = (cries) => {
+        if (!cries) return;
+        const audioUrl = cries.latest || cries.legacy;
+        if (!audioUrl) return;
+
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio = null;
+        }
+
+        currentAudio = new Audio(audioUrl);
+        currentAudio.volume = 0.5;
+
+        if (screenSpeaker) screenSpeaker.classList.add('playing');
+
+        currentAudio.play().catch(err => console.error("Audio play failed:", err));
+
+        currentAudio.onended = () => {
+            if (screenSpeaker) screenSpeaker.classList.remove('playing');
+            currentAudio = null;
+        };
+    };
+
+    if (shinyToggleBtn) {
+        shinyToggleBtn.addEventListener('click', () => {
+            isShiny = !isShiny;
+            shinyToggleBtn.classList.toggle('active', isShiny);
+            if (currentPokemonData) {
+                renderPokemonImage(currentPokemonData.pkmnData);
+            }
+        });
+    }
+
+    const renderPokemonImage = (pkmnData) => {
+        const standardImg = pkmnData.sprites.other['official-artwork'].front_default || pkmnData.sprites.front_default || '';
+        const shinyImg = pkmnData.sprites.other['official-artwork'].front_shiny || pkmnData.sprites.front_shiny || standardImg;
+        pkmnImage.src = isShiny ? shinyImg : standardImg;
     };
 
     pkmnDataContainer.style.display = 'block';
@@ -185,13 +232,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderPokemonData = (data, displayId) => {
         const { pkmnData, speciesData, typeDetails, evolutionChain } = data;
 
+        currentPokemonData = data;
         pkmnName.innerText = `#${displayId || pkmnData.id} ` + pkmnData.name.toUpperCase();
-        pkmnImage.src = pkmnData.sprites.other['official-artwork'].front_default || pkmnData.sprites.front_default || '';
+        renderPokemonImage(pkmnData);
         pkmnHeight.innerText = `HT: ${pkmnData.height / 10}m`;
         pkmnWeight.innerText = `WT: ${pkmnData.weight / 10}kg`;
 
         pkmnTypes.innerHTML = pkmnData.types.map(t => `<span class="type-badge ${t.type.name}">${t.type.name}</span>`).join('');
+        renderAbilities(pkmnData.abilities);
         renderEffectiveness(typeDetails);
+        renderStats(pkmnData.stats);
 
         if (speciesData && speciesData.flavor_text_entries) {
             const engEntry = speciesData.flavor_text_entries.find(e => e.language.name === 'en');
@@ -202,6 +252,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
         renderMoves(pkmnData.moves);
         renderEvolutions(evolutionChain);
+        playPokemonCry(pkmnData.cries);
+    };
+
+    const renderAbilities = (abilities) => {
+        pkmnAbilitiesEl.innerHTML = abilities.map(a => `
+            <span class="ability-badge ${a.is_hidden ? 'hidden' : ''}" title="${a.is_hidden ? 'Hidden Ability' : 'Ability'}">
+                ${a.ability.name.replace('-', ' ')}
+            </span>
+        `).join('');
+    };
+
+    const renderStats = (stats) => {
+        pkmnStatsEl.innerHTML = '';
+        const statNamesMap = {
+            'hp': 'HP',
+            'attack': 'ATK',
+            'defense': 'DEF',
+            'special-attack': 'SPA',
+            'special-defense': 'SPD',
+            'speed': 'SPE'
+        };
+
+        stats.forEach(s => {
+            const statClass = `stat-${statNamesMap[s.stat.name].toLowerCase()}`;
+            const percentage = Math.min((s.base_stat / 255) * 100, 100);
+
+            const row = document.createElement('div');
+            row.className = `stat-row ${statClass}`;
+            row.innerHTML = `
+                <span class="stat-label">${statNamesMap[s.stat.name]}</span>
+                <div class="stat-bar-bg">
+                    <div class="stat-bar-fill" style="width: 0%"></div>
+                </div>
+                <span class="stat-value">${s.base_stat}</span>
+            `;
+            pkmnStatsEl.appendChild(row);
+
+            // Animate after append
+            setTimeout(() => {
+                row.querySelector('.stat-bar-fill').style.width = `${percentage}%`;
+            }, 50);
+        });
     };
 
     const renderMoves = (moves) => {
@@ -266,13 +358,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const renderEvolutions = async (chain) => {
         const evoContainer = document.querySelector('.evolution-container');
+        const movesContainer = document.querySelector('.moves-container');
+
         if (!chain || chain.length <= 1) {
             evoContainer.style.display = 'none';
+            if (movesContainer) movesContainer.classList.add('full-height');
             pokemonEvolutionsEl.innerHTML = '';
             return;
         }
+
         evoContainer.style.display = 'block';
+        if (movesContainer) movesContainer.classList.remove('full-height');
         pokemonEvolutionsEl.innerHTML = '';
+
+        const isScaled = chain.length > 3;
 
         for (let i = 0; i < chain.length; i++) {
             const p = chain[i];
@@ -282,7 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const displayId = listRef ? listRef.displayId : pokeData.id;
 
             const div = document.createElement('div');
-            div.className = 'evo-item';
+            div.className = `evo-item ${isScaled ? 'scaled' : ''}`;
             div.innerHTML = `
                 <img src="${pokeData.sprites.front_default}" alt="${p.name}">
                 <span>${p.name}</span>
@@ -292,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (i < chain.length - 1) {
                 const arrow = document.createElement('div');
-                arrow.className = 'evo-arrow';
+                arrow.className = `evo-arrow ${isScaled ? 'scaled' : ''}`;
                 arrow.innerText = '→';
                 pokemonEvolutionsEl.appendChild(arrow);
             }
