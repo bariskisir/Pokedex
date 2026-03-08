@@ -1,11 +1,11 @@
 {
   "name": "pokedex-electron",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A professional Electron Pokédex with retro aesthetics.",
   "type": "module",
-  "main": "main.cjs",
+  "main": "src/main.cjs",
   "bin": {
-    "pokedex-electron": "./cli.cjs"
+    "pokedex-electron": "./src/cli.cjs"
   },
   "author": "Barış Kısır",
   "license": "MIT",

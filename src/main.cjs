@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 
-app.setPath('userData', path.join(__dirname, '.electron-data'));
+app.setPath('userData', path.join(__dirname, '..', '.electron-data'));
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -23,7 +23,7 @@ function createWindow() {
         win.setIgnoreMouseEvents(ignore, options);
     });
 
-    win.loadFile('index.html');
+    win.loadFile(path.join(__dirname, 'index.html'));
 }
 
 app.whenReady().then(() => {

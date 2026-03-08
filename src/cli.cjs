@@ -4,7 +4,7 @@ const { spawn } = require('child_process');
 const path = require('path');
 const electron = require('electron');
 
-const args = [path.join(__dirname, '.')];
+const args = [path.join(__dirname, 'main.cjs')];
 const proc = spawn(electron, args, { stdio: 'inherit' });
 
 proc.on('close', (code) => {

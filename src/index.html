@@ -12,10 +12,7 @@
 <body>
   <div id="app">
     <div id="pokedex">
-
-      <!-- LEFT PANEL -->
       <div id="left-panel">
-        <!-- Top section with cameras/lights -->
         <div class="left-top">
           <div class="big-blue-glass">
             <div class="reflection"></div>
@@ -26,15 +23,12 @@
             <div class="light green"></div>
           </div>
         </div>
-
         <div class="left-curve-cutout"></div>
-
         <div class="screen-border">
           <div class="screen-lights">
             <div class="screen-light red"></div>
             <div class="screen-light red"></div>
           </div>
-
           <div id="main-screen">
             <div id="startup-overlay">
               <div>BOOTING POKéOS...</div>
@@ -63,7 +57,6 @@
                 <div id="pokemon-evolutions"></div>
               </div>
             </div>
-
             <div id="type-list-screen" style="display: none;">
               <div class="type-list-header">
                 <div id="type-list-back">←</div>
@@ -72,15 +65,12 @@
               <div id="type-pokemon-list"></div>
             </div>
           </div>
-
           <div class="screen-bottom">
             <div class="screen-light red bottom-dot"></div>
             <div class="screen-speaker"></div>
           </div>
         </div>
       </div>
-
-      <!-- RIGHT PANEL (Was accidentally merged, now restored) -->
       <div id="right-panel">
         <div class="right-top-cutout"></div>
         <div id="right-inner">
@@ -89,7 +79,6 @@
               <input type="text" id="search-input" placeholder="Search Pokémon..." autocomplete="off" />
               <div id="search-clear">×</div>
             </div>
-
             <div id="list-container">
               <ul id="pokemon-list">
                 <li class="loading">Loading...</li>
@@ -98,16 +87,12 @@
           </div>
         </div>
       </div>
-
-      <!-- Isolated window controls -->
       <div id="window-controls">
         <button id="btn-minimize">-</button>
         <button id="btn-close">X</button>
       </div>
-
     </div>
   </div>
-
   <script type="module" src="./main.js"></script>
 </body>
 
