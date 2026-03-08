@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pokédex</title>
+  <link rel="stylesheet" href="./style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div id="app">
+    <div id="pokedex">
+
+      <!-- LEFT PANEL -->
+      <div id="left-panel">
+        <!-- Top section with cameras/lights -->
+        <div class="left-top">
+          <div class="big-blue-glass">
+            <div class="reflection"></div>
+          </div>
+          <div class="small-lights">
+            <div class="light red"></div>
+            <div class="light yellow"></div>
+            <div class="light green"></div>
+          </div>
+        </div>
+
+        <div class="left-curve-cutout"></div>
+
+        <div class="screen-border">
+          <div class="screen-lights">
+            <div class="screen-light red"></div>
+            <div class="screen-light red"></div>
+          </div>
+
+          <div id="main-screen">
+            <div id="startup-overlay">
+              <div>BOOTING POKéOS...</div>
+            </div>
+            <div class="pokemon-data" style="display: none;">
+              <h2 id="pkmn-name">--</h2>
+              <div class="image-container">
+                <img id="pkmn-image" src="" alt="" />
+              </div>
+              <div id="pkmn-types"></div>
+              <div id="pkmn-effectiveness"></div>
+              <p id="flavor-text" class="flavor-text">Awaiting input...</p>
+              <div class="stats-row">
+                <span id="pkmn-height">HT: --</span>
+                <span id="pkmn-weight">WT: --</span>
+              </div>
+              <div class="moves-container">
+                <h3>- MOVES -</h3>
+                <ul id="pokemon-moves"></ul>
+              </div>
+              <div class="evolution-container" style="display: none;">
+                <h3>- EVOLUTION -</h3>
+                <div id="pokemon-evolutions"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="screen-bottom">
+            <div class="screen-light red bottom-dot"></div>
+            <div class="screen-speaker"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT PANEL (Was accidentally merged, now restored) -->
+      <div id="right-panel">
+        <div class="right-top-cutout"></div>
+        <div id="right-inner">
+          <div class="right-top-screen">
+            <div id="search-container">
+              <input type="text" id="search-input" placeholder="Search Pokémon..." autocomplete="off" />
+              <div id="search-clear">×</div>
+            </div>
+
+            <div id="list-container">
+              <ul id="pokemon-list">
+                <li class="loading">Loading...</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Isolated window controls -->
+      <div id="window-controls">
+        <button id="btn-minimize">-</button>
+        <button id="btn-close">X</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+
+</html>

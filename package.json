@@ -1,0 +1,35 @@
+{
+  "name": "pokedex-electron",
+  "version": "1.0.3",
+  "description": "A professional Electron Pokédex with retro aesthetics.",
+  "type": "module",
+  "main": "main.cjs",
+  "bin": {
+    "pokedex-electron": "./cli.cjs"
+  },
+  "author": "Barış Kısır",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bariskisir/pokedex.git"
+  },
+  "keywords": [
+    "pokemon",
+    "pokedex",
+    "electron",
+    "papi",
+    "retro"
+  ],
+  "scripts": {
+    "start": "electron .",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "electron": "^40.8.0"
+  },
+  "devDependencies": {
+    "vite": "^7.3.1"
+  }
+}
