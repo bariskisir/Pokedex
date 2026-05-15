@@ -1,0 +1,7 @@
+.github/
+node_modules/
+dist/
+build/
+.DS_Store
+*.log
+.electron-data
