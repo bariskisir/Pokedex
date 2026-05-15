@@ -1,4 +1,6 @@
-﻿:root {
+﻿/* Styles the retro Pokedex renderer interface and responsive Electron window layout. */
+
+:root {
   --pokedex-red: #da0b22;
   --dark-red: #a30718;
   --screen-bg: #809696;
