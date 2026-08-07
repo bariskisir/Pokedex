@@ -34,7 +34,7 @@
     "prepack": "npm run build"
   },
   "dependencies": {
-    "electron": "40.8.5"
+    "electron": "41.10.3"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",
