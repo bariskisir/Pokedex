@@ -1,0 +1,202 @@
+/* Models both faces of a true three-dimensional hinged lid and its closure hardware. */
+@use 'tokens' as t;
+
+.device-lid {
+  position: absolute;
+  left: 378px;
+  top: 111px;
+  width: 354px;
+  height: 497px;
+  transform-origin: 0 50%;
+  transform-style: preserve-3d;
+  transform: rotateY(-180deg);
+  transition: transform 0.95s cubic-bezier(0.35, 0.05, 0.18, 1);
+  z-index: 5;
+}
+.cover-face,
+.lid-interior {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border: 3px solid t.$edge;
+  border-radius: 9px 17px 18px 10px;
+}
+.cover-face {
+  transform: rotateY(180deg) translateZ(2px);
+  background: linear-gradient(105deg, #df354e, #cc2844 65%, #b51e3d);
+  width: 100%;
+  padding: 0;
+  box-shadow:
+    inset 5px 4px 2px #ff77818c,
+    inset -7px -7px 1px #981633,
+    0 8px 0 #68152c,
+    0 11px 0 1px #481626,
+    -8px 10px 17px #54132666;
+  text-align: center;
+  &:hover:not(:disabled) {
+    filter: none;
+  }
+  &:active:not(:disabled) {
+    transform: rotateY(180deg) translateZ(2px);
+  }
+}
+.cover-inset {
+  position: absolute;
+  inset: 17px 18px 18px;
+  border: 2px solid #a71938;
+  border-radius: 8px 8px 14px 8px;
+  box-shadow:
+    1px 1px #fc6b7b88,
+    inset 1px 1px #f45d7044;
+}
+.cover-brand {
+  position: absolute;
+  top: 36px;
+  left: 0;
+  width: 100%;
+  font:
+    bold 30px Arial,
+    sans-serif;
+  font-style: italic;
+  letter-spacing: 5px;
+  color: #aa1d38;
+  text-shadow:
+    0 1px 0 #fa667b,
+    0 -1px 0 #741229;
+}
+.cover-model {
+  position: absolute;
+  top: 78px;
+  left: 0;
+  width: 100%;
+  color: #8a2037;
+  font: 7px t.$mono;
+  letter-spacing: 2px;
+  text-shadow: 0 1px #f46579;
+}
+.cover-emblem {
+  position: absolute;
+  left: 50%;
+  top: 138px;
+  width: 157px;
+  height: 157px;
+  border-radius: 50%;
+  border: 5px solid #a41e39;
+  transform: translateX(-50%);
+  box-shadow:
+    1px 2px 0 #ef5c72,
+    inset 1px 2px #ef5c7280;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 66px;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: #a41e39;
+    box-shadow: 0 2px #ef5c72;
+  }
+  > span {
+    position: absolute;
+    width: 49px;
+    height: 49px;
+    border: 5px solid #a41e39;
+    background: #cd2a45;
+    border-radius: 50%;
+    left: 49px;
+    top: 49px;
+    box-shadow:
+      1px 2px #ef5c72,
+      inset 1px 2px #ef5c72;
+  }
+}
+.cover-ribs {
+  position: absolute;
+  top: 331px;
+  left: 71px;
+  right: 35px;
+  display: grid;
+  gap: 7px;
+  i {
+    height: 4px;
+    background: #a51d38;
+    border-radius: 4px;
+    box-shadow: 0 1px #f06a7a;
+  }
+}
+.cover-serial {
+  position: absolute;
+  bottom: 41px;
+  left: 0;
+  width: 100%;
+  font: 7px t.$mono;
+  color: #821f34;
+  letter-spacing: 0.8px;
+}
+.cover-prompt {
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  width: 100%;
+  font: bold 8px t.$mono;
+  letter-spacing: 2px;
+  color: #ffc7c4;
+  span {
+    margin-left: 6px;
+    font-size: 12px;
+  }
+}
+.lid-interior {
+  background: linear-gradient(95deg, #b51c37, #d7354e 26%, #d52d48 85%, #a31833);
+  transform: translateZ(1px);
+  padding: 24px 24px 15px 28px;
+  box-shadow:
+    inset 4px 3px 2px #ff7d8680,
+    inset -6px -7px 1px #991730,
+    0 8px 0 #67162b,
+    0 11px 0 1px #481626,
+    12px 20px 30px -15px #302c2b99;
+}
+.hinge {
+  position: absolute;
+  top: 89px;
+  left: 364px;
+  height: 519px;
+  width: 27px;
+  z-index: 8;
+  border: 2px solid #62132a;
+  border-radius: 8px 8px 6px 6px;
+  background: linear-gradient(90deg, #941c36, #e8495d 28%, #e35669 42%, #c12946 61%, #86152e);
+  box-shadow: 2px 3px 3px #63152c77;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 21px 0;
+  i {
+    width: 100%;
+    height: 9px;
+    border-top: 2px solid #81162e;
+    border-bottom: 2px solid #ed6977;
+    background: #a4223e;
+  }
+}
+.pokedex-device[data-phase='opening'] .device-lid,
+.pokedex-device[data-phase='open'] .device-lid {
+  transform: rotateY(0deg);
+}
+.pokedex-device[data-phase='closing'] .device-lid {
+  transition-duration: 0.75s;
+  transition-delay: 0.06s;
+}
+.pokedex-device[data-phase='closed'] .cover-prompt {
+  animation: latch-breathe 3s ease-in-out infinite;
+}
+@keyframes latch-breathe {
+  0%,
+  100% {
+    opacity: 0.65;
+  }
+  50% {
+    opacity: 1;
+  }
+}

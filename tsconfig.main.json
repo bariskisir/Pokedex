@@ -6,9 +6,13 @@
     "rootDir": "src/electron",
     "outDir": "dist/main",
     "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "types": ["node"]
   },
-  "include": ["src/electron/main.cts", "src/electron/cli.cts"]
+  "include": ["src/electron/**/*.cts"]
 }

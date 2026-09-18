@@ -6,6 +6,6 @@ build/
 *.log
 .electron-data
 **/.electron-data/
-screenshot.png
+app.gif
 tsconfig*.json
 vite.config.*

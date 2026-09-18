@@ -1,0 +1,214 @@
+/* Simulates a recessed LCD, glass scanlines, sensor pulses, and a staged power-on sequence. */
+@use 'tokens' as t;
+
+.screen-bezel {
+  height: 341px;
+  padding: 23px 16px 11px;
+  position: relative;
+  border: 3px solid #661b2c;
+  border-radius: 11px 11px 11px 39px;
+  background: linear-gradient(125deg, #f2eee3, #c9c9be 55%, #aeb4ad);
+  box-shadow:
+    inset 2px 2px 1px #fffff7,
+    inset -3px -3px 1px #959d99,
+    0 4px #91162e;
+}
+.bezel-leds {
+  position: absolute;
+  top: 8px;
+  left: 132px;
+  display: flex;
+  gap: 18px;
+  i {
+    width: 6px;
+    height: 6px;
+    border: 1px solid #703531;
+    border-radius: 50%;
+    background: #ba273a;
+  }
+}
+.screen-glass {
+  height: 270px;
+  border: 4px solid #353d37;
+  border-radius: 6px;
+  background: linear-gradient(125deg, #ced8b5, #a7c297);
+  overflow: hidden;
+  position: relative;
+  box-shadow:
+    inset 2px 3px 8px #34503666,
+    0 1px #f7ffed;
+  font-family: t.$mono;
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 4;
+    background: repeating-linear-gradient(transparent 0 2px, #263d270a 2px 3px);
+    box-shadow: inset 0 0 20px #41543425;
+  }
+}
+.screen-tabs {
+  height: 26px;
+  display: flex;
+  border-bottom: 1px solid #506c4380;
+  padding: 4px 4px 0;
+  gap: 3px;
+  button {
+    flex: 1;
+    border: 0;
+    border-radius: 2px 2px 0 0;
+    background: transparent;
+    padding: 3px 0;
+    font: bold 7px t.$mono;
+    color: #3f563d;
+    &[aria-selected='true'] {
+      background: #405d3e;
+      color: #d6e4ba;
+    }
+  }
+}
+.bezel-bottom {
+  display: flex;
+  align-items: center;
+  padding: 8px 8px 0 13px;
+  gap: 12px;
+}
+.screen-indicator {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #6b3233;
+  border-radius: 50%;
+  background: #d63042;
+  box-shadow:
+    inset 1px 1px #ff8c87,
+    0 1px #f5e7d9;
+}
+.bezel-model {
+  color: #787f76;
+  font: 7px t.$mono;
+  letter-spacing: 1px;
+}
+.speaker-grille {
+  display: grid;
+  gap: 3px;
+  width: 40px;
+  margin-left: auto;
+  transform: skewX(-14deg);
+  i {
+    height: 2px;
+    background: #525c58;
+    border-radius: 2px;
+    box-shadow: 0 1px #f8f7ea;
+  }
+}
+.boot-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: #183127;
+  color: #b2d78d;
+  gap: 10px;
+  opacity: 1;
+  pointer-events: none;
+  font-family: t.$mono;
+  > strong {
+    font-size: 26px;
+    letter-spacing: 4px;
+  }
+  > span:not(.boot-symbol) {
+    font-size: 7px;
+    letter-spacing: 1px;
+  }
+  > small {
+    font-size: 5px;
+    letter-spacing: 0.6px;
+    margin-top: 8px;
+  }
+}
+.boot-symbol {
+  font-size: 29px;
+}
+.boot-progress {
+  width: 160px;
+  height: 5px;
+  border: 1px solid #7a9b5e;
+  i {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: #afd783;
+  }
+}
+.pokedex-device[data-phase='closed'] {
+  .screen-glass {
+    background: #26382e;
+  }
+  .boot-screen {
+    visibility: hidden;
+  }
+  .screen-tabs,
+  .detail-panel {
+    visibility: hidden;
+  }
+}
+.pokedex-device[data-phase='opening'] {
+  .boot-screen {
+    animation: boot-fade 1.15s both;
+  }
+  .boot-progress i {
+    animation: boot-load 0.75s 0.25s steps(8) forwards;
+  }
+  .screen-glass {
+    animation: screen-power 0.4s 0.4s both;
+  }
+}
+.pokedex-device[data-phase='open'] .boot-screen {
+  opacity: 0;
+  visibility: hidden;
+}
+.pokedex-device[data-phase='closing'] {
+  .screen-glass {
+    animation: screen-off 0.18s both;
+  }
+  .boot-screen {
+    visibility: hidden;
+  }
+}
+@keyframes boot-load {
+  to {
+    width: 100%;
+  }
+}
+@keyframes boot-fade {
+  0%,
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes screen-power {
+  0% {
+    filter: brightness(0.1);
+  }
+  45% {
+    filter: brightness(1.3);
+  }
+  65% {
+    filter: brightness(0.8);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+@keyframes screen-off {
+  to {
+    filter: brightness(0);
+  }
+}

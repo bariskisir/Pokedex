@@ -1,47 +1,42 @@
+# Publishes the npm package only after the pushed version tag passes all release checks.
 name: Publish to npm
-
 on:
   push:
     tags:
-      - "*"
-
+      - '*'
 permissions:
   contents: read
-  id-token: write
-
+concurrency:
+  group: npm-publish-${{ github.ref }}
+  cancel-in-progress: false
 jobs:
-  publish:
-    name: Publish package
+  validate-version:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-node@v7.0.0
         with:
-          node-version: 20
+          node-version: 24
+      - run: npm run release:check
+  validate:
+    needs: validate-version
+    uses: ./.github/workflows/validate.yml
+  publish:
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 24
           registry-url: https://registry.npmjs.org
           cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Validate tag matches package version
-        run: |
-          PACKAGE_VERSION="$(node -p "require('./package.json').version")"
-          TAG_VERSION="${GITHUB_REF_NAME#v}"
-
-          if [ "$PACKAGE_VERSION" != "$TAG_VERSION" ]; then
-            echo "Tag version ($TAG_VERSION) does not match package.json version ($PACKAGE_VERSION)."
-            exit 1
-          fi
-
-      - name: Check package contents
-        run: npm pack --dry-run
-
-      - name: Publish to npm
-        run: npm publish --access public --provenance
+      - run: npm ci
+      - run: npm run release:check
+      - run: npm publish --access public --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

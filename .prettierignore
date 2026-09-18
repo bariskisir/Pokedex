@@ -1,9 +1,7 @@
 node_modules/
 dist/
-build/
-.DS_Store
-*.log
-.electron-data
 test-results/
 playwright-report/
-*.tgz
+package-lock.json
+LICENSE
+*.md

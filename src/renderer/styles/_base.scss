@@ -1,0 +1,100 @@
+/* Establishes accessible controls and typography for a self-contained physical device. */
+@use 'tokens' as t;
+
+:root {
+  font-family: Arial, Helvetica, sans-serif;
+  color: t.$ink;
+  background: transparent;
+  font-synthesis: none;
+  color-scheme: light;
+}
+* {
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: #779273 transparent;
+}
+body {
+  margin: 0;
+}
+button,
+input,
+select {
+  font: inherit;
+  -webkit-app-region: no-drag;
+}
+button,
+select {
+  cursor: pointer;
+}
+button {
+  color: inherit;
+  border: 1px solid #53694b;
+  background: #a8be93;
+  border-radius: 3px;
+  padding: 5px 7px;
+  &:hover:not(:disabled) {
+    filter: brightness(1.09);
+  }
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+  &:disabled {
+    cursor: default;
+    opacity: 0.4;
+  }
+  &[aria-pressed='true'] {
+    background: #425c3c;
+    color: #e3efce;
+  }
+}
+:focus-visible {
+  outline: 2px solid #f2bb36;
+  outline-offset: 3px;
+}
+[hidden] {
+  display: none !important;
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.micro-label {
+  font: 8px t.$mono;
+  letter-spacing: 0.5px;
+}
+.muted {
+  font-size: 9px;
+  margin: 5px 0;
+}
+.status,
+.detail-status {
+  font-size: 10px;
+  line-height: 1.5;
+}
+.detail-status {
+  padding: 9px;
+}
+.fatal-error {
+  max-width: 600px;
+  margin: 15vh auto;
+  padding: 25px;
+  background: #e1e9d8;
+}
+h3 {
+  font: bold 11px t.$mono;
+  margin: 0 0 10px;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

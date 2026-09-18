@@ -1,0 +1,46 @@
+# Shares quality, browser, desktop, and packaging checks between CI and tagged releases.
+name: Validate
+on:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  quality:
+    name: Node ${{ matrix.node }} / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            node: 24
+          - os: windows-latest
+            node: 24
+          - os: macos-latest
+            node: 26
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - name: Browser and Electron tests on Linux
+        if: runner.os == 'Linux'
+        run: xvfb-run --auto-servernum npm run test:e2e
+      - name: Browser and Electron tests on Windows and macOS
+        if: runner.os != 'Linux'
+        run: npm run test:e2e
+      - name: Validate package contents
+        run: npm run package:check
+      - name: Retain failure reports
+        if: failure()
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: test-results-${{ matrix.os }}-${{ matrix.node }}
+          path: test-results/
+          retention-days: 7

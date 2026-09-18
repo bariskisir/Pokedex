@@ -1,0 +1,197 @@
+/* Shapes tactile controls, the directional pad, and the restrained physical speaker trim. */
+@use 'tokens' as t;
+
+.physical-controls {
+  position: relative;
+  height: 121px;
+  margin-top: 14px;
+}
+.sound-dial {
+  position: absolute;
+  left: 2px;
+  top: 0;
+  width: 42px;
+  height: 42px;
+  border: 3px solid #421d2a;
+  border-radius: 50%;
+  color: #809391;
+  background: radial-gradient(circle at 40% 30%, #454d53, #232a30 70%);
+  box-shadow:
+    inset 0 2px 1px #6d7175,
+    0 4px 0 #621a2c,
+    1px 6px 3px #79172d;
+  span {
+    font-size: 19px;
+  }
+  &[aria-pressed='true'] {
+    background: #232a30;
+    color: #717a7e;
+  }
+}
+.function-rockers {
+  position: absolute;
+  left: 60px;
+  top: 9px;
+  display: flex;
+  gap: 14px;
+}
+.rocker {
+  width: 48px;
+  height: 13px;
+  padding: 0;
+  border: 2px solid #571927;
+  border-radius: 7px;
+  box-shadow:
+    inset 0 2px 1px #ffffff33,
+    0 3px 0 #71172b;
+  &-red {
+    background: #941c31;
+  }
+  &-blue {
+    background: #167780;
+  }
+}
+.mini-lcd {
+  position: absolute;
+  top: 49px;
+  left: 57px;
+  width: 114px;
+  height: 55px;
+  padding: 6px 9px;
+  font-family: t.$mono;
+  color: #29462e;
+  background: linear-gradient(120deg, #aac474, #86a664);
+  border: 3px solid #742434;
+  border-radius: 5px;
+  box-shadow:
+    inset 2px 2px 3px #466c46,
+    0 1px #e45363;
+  span {
+    display: block;
+    font-size: 9px;
+  }
+  strong {
+    display: block;
+    font-size: 12px;
+    margin: 2px 0;
+  }
+  i {
+    display: block;
+    font-size: 6px;
+    font-style: normal;
+  }
+}
+.d-pad {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+  position: absolute;
+  width: 98px;
+  height: 98px;
+  right: 6px;
+  top: 3px;
+  filter: drop-shadow(2px 5px 1px #67142b);
+  button,
+  .d-pad-center {
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 2px;
+    background: linear-gradient(130deg, #383f46, #23282d);
+    color: #10181e;
+    text-shadow: 0 1px #5a6066;
+    padding: 0;
+    font-size: 10px;
+    box-shadow:
+      inset 0 2px #666b70,
+      inset 2px 0 #484e53,
+      inset -2px -2px #171d23;
+  }
+  .d-pad-up {
+    left: 32px;
+    top: 0;
+  }
+  .d-pad-left {
+    left: 0;
+    top: 32px;
+  }
+  .d-pad-right {
+    right: 0;
+    top: 32px;
+  }
+  .d-pad-down {
+    left: 32px;
+    bottom: 0;
+  }
+  .d-pad-center {
+    top: 32px;
+    left: 32px;
+    box-shadow: none;
+    z-index: 1;
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 9px;
+      border-radius: 50%;
+      box-shadow:
+        inset 1px 1px 3px #111a21,
+        1px 1px #4b5359;
+    }
+  }
+}
+.control-label {
+  position: absolute;
+  font:
+    bold 6px Arial,
+    sans-serif;
+  color: #73182e;
+  letter-spacing: 1px;
+  text-shadow: 0 1px #ec6372;
+}
+.label-sound {
+  top: 47px;
+  left: 8px;
+}
+.label-power {
+  top: 30px;
+  left: 71px;
+}
+.label-navigate {
+  bottom: 6px;
+  right: 13px;
+}
+.lid-trim {
+  display: flex;
+  align-items: center;
+  margin: 13px 5px 0;
+  .speaker-grille {
+    margin-left: 0;
+    width: 46px;
+    i {
+      background: #85213b;
+      box-shadow: 0 1px #fa6b7a;
+    }
+  }
+}
+.gold-indicator {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-left: auto;
+  border: 2px solid #7b3424;
+  background: radial-gradient(circle at 35% 30%, #ffe9a5, #eab536 50%, #a86b14);
+  box-shadow: 0 2px #8f2335;
+}
+.lid-close {
+  position: absolute;
+  bottom: 10px;
+  left: 28px;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: #ffb2b6;
+  font: 6px t.$mono;
+  letter-spacing: 1.5px;
+}

@@ -1,0 +1,102 @@
+/* Illuminates the physical sensor and status lamps without rapid flashing or layout changes. */
+.sensor-lens,
+.led {
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    background: var(--lamp-color);
+    box-shadow:
+      0 0 10px 3px var(--lamp-color),
+      0 0 24px var(--lamp-color);
+  }
+}
+.sensor-lens {
+  --lamp-color: #55e4ff;
+  &::after {
+    background: radial-gradient(circle at 38% 32%, #e1ffffbb, #46dfff33 70%);
+  }
+}
+.led {
+  position: relative;
+  &-red {
+    --lamp-color: #ff5264;
+  }
+  &-amber {
+    --lamp-color: #ffda57;
+  }
+  &-green {
+    --lamp-color: #a1ff70;
+  }
+}
+.sensor-housing[data-status='standby'] .led-red::after {
+  opacity: 0.25;
+}
+.sensor-housing:not([data-status='standby']) .sensor-lens::after {
+  opacity: 0.65;
+  animation: sensor-breathe 3.2s ease-in-out infinite;
+}
+.sensor-housing[data-status='booting'],
+.sensor-housing[data-status='loading'] {
+  .sensor-lens::after {
+    animation-duration: 1.4s;
+  }
+  .led-amber::after {
+    opacity: 0.8;
+    animation: lamp-breathe 1.6s ease-in-out infinite;
+  }
+}
+.sensor-housing[data-status='booting'] {
+  .led-red::after,
+  .led-green::after {
+    animation: lamp-breathe 1.2s ease-in-out both;
+  }
+  .led-green::after {
+    animation-delay: 0.3s;
+  }
+}
+.sensor-housing[data-status='ready'] .led-green::after,
+.sensor-housing[data-status='error'] .led-red::after {
+  opacity: 0.85;
+}
+.pokedex-device[data-phase='open'] {
+  .screen-indicator {
+    box-shadow:
+      0 0 8px #ff5264,
+      inset 0 0 4px #ffd0c9;
+  }
+  .gold-indicator {
+    box-shadow:
+      0 0 12px #ffda5780,
+      inset 0 0 6px #fff1ab;
+  }
+}
+@keyframes sensor-breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+@keyframes lamp-breathe {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sensor-housing .sensor-lens::after,
+  .sensor-housing .led::after {
+    animation: none !important;
+    transition: none;
+  }
+}

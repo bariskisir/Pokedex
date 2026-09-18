@@ -1,0 +1,116 @@
+/* Presents compact profile and artwork information within the primary monochrome LCD. */
+@use 'tokens' as t;
+
+.detail-panel {
+  height: calc(100% - 26px);
+  overflow-y: auto;
+  padding: 9px 8px;
+  color: #213d2c;
+  font-family: t.$mono;
+  font-size: 9px;
+}
+.profile-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 5px;
+  h2 {
+    margin: 1px 0 3px;
+    font: bold 17px t.$mono;
+    text-transform: uppercase;
+    letter-spacing: -0.6px;
+    overflow-wrap: anywhere;
+  }
+  .muted {
+    font-size: 7px;
+    margin: 2px 0;
+  }
+}
+.entry-number {
+  font: bold 8px t.$mono;
+  letter-spacing: 1px;
+}
+.generation-label {
+  font: 7px t.$mono;
+  margin: 4px 0 7px;
+}
+.favorite-button {
+  background: transparent;
+  border: 0;
+  font-size: 19px;
+  padding: 1px;
+  line-height: 1;
+}
+.profile-overview {
+  display: grid;
+  grid-template-columns: 115px minmax(0, 1fr);
+  gap: 8px;
+}
+.artwork-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  img {
+    width: 113px;
+    height: 113px;
+    object-fit: contain;
+    filter: drop-shadow(2px 3px 0 #2c49382b);
+    position: relative;
+    z-index: 1;
+  }
+}
+.artwork-ring {
+  position: absolute;
+  top: 13px;
+  width: 97px;
+  height: 97px;
+  border-radius: 50%;
+  border: 1px dashed #59784b66;
+  background: radial-gradient(circle, #ebf2d555, transparent 70%);
+}
+.artwork-actions {
+  display: flex;
+  gap: 4px;
+  margin-top: 5px;
+  button {
+    font: 7px t.$mono;
+    padding: 3px 4px;
+  }
+}
+.profile-summary {
+  padding-top: 3px;
+  h3 {
+    font-size: 7px;
+    text-transform: uppercase;
+    margin: 9px 0 4px;
+  }
+}
+.description {
+  font: 8px/1.6 t.$mono;
+  margin: 8px 0;
+}
+.measurements {
+  display: flex;
+  gap: 13px;
+  margin: 7px 0;
+  dt {
+    font-size: 6px;
+    text-transform: uppercase;
+  }
+  dd {
+    margin: 3px 0 0;
+    font: bold 10px t.$mono;
+  }
+}
+.ability {
+  font: 7px t.$mono;
+  padding: 2px 4px;
+  border: 1px solid #668458;
+  border-radius: 2px;
+  text-transform: capitalize;
+  small {
+    font-size: 6px;
+  }
+}

@@ -1,0 +1,252 @@
+/* Builds the compact molded shell, exposed sensor housing, and viewport-scaled device stage. */
+@use 'tokens' as t;
+
+.device-scene {
+  width: 100%;
+  height: 100dvh;
+  min-height: 250px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  position: relative;
+  background: radial-gradient(ellipse at 45% 35%, #eeeee5, #d2d2c7 65%, #b8beb5);
+}
+.device-scene-native {
+  background: transparent;
+}
+.scene-caption {
+  position: absolute;
+  top: 25px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #59645c;
+  pointer-events: none;
+  > span {
+    font: 10px t.$mono;
+    letter-spacing: 3px;
+  }
+  small {
+    display: block;
+    font-size: 11px;
+    margin-top: 8px;
+    opacity: 0.7;
+  }
+}
+.device-viewport {
+  position: relative;
+  perspective: 1800px;
+  transition: width 1s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.pokedex-device {
+  width: 756px;
+  height: 608px;
+  position: relative;
+  transform: scale(var(--device-scale));
+  transform-origin: top left;
+  perspective: 1600px;
+}
+.main-shell {
+  position: absolute;
+  width: 386px;
+  height: 608px;
+  left: 0;
+  top: 0;
+  border: 3px solid t.$edge;
+  border-radius: 23px 15px 14px 28px;
+  background: linear-gradient(100deg, #e73d55, #c82340 62%, #ad1934);
+  box-shadow:
+    inset 5px 3px 2px #ff7b8590,
+    inset -8px -7px 1px #851a36,
+    0 9px 0 #60162b,
+    0 12px 0 2px #4f1a2a,
+    0 23px 34px -10px #322a2d88;
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 110px 13px 18px;
+    border: 1px solid #810f2f;
+    border-radius: 10px 8px 7px 18px;
+    box-shadow: 1px 1px #ff758456;
+    pointer-events: none;
+  }
+}
+.sensor-housing {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 115px;
+  z-index: 4;
+  -webkit-app-region: drag;
+  user-select: none;
+}
+.sensor-ring {
+  position: absolute;
+  top: 17px;
+  left: 20px;
+  width: 77px;
+  height: 77px;
+  padding: 7px;
+  border-radius: 50%;
+  border: 3px solid #59162c;
+  background: linear-gradient(135deg, #ffffef, #a2aaa7);
+  box-shadow:
+    1px 4px 0 #8d1a34,
+    inset 0 2px 2px #fff;
+}
+.sensor-lens {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 50%;
+  border: 2px solid #17384b;
+  background: radial-gradient(circle at 37% 29%, #90f5ff, #25bfea 38%, #087cba 64%, #00456e 95%);
+  box-shadow:
+    inset -4px -7px 5px #004672,
+    inset 2px 3px 3px #d5ffff;
+  i {
+    position: absolute;
+    width: 23px;
+    height: 13px;
+    left: 9px;
+    top: 7px;
+    background: #c7faffb0;
+    border-radius: 50%;
+    transform: rotate(-28deg);
+  }
+}
+.status-lights {
+  position: absolute;
+  top: 22px;
+  left: 115px;
+  display: flex;
+  gap: 12px;
+}
+.led {
+  width: 17px;
+  height: 17px;
+  border: 2px solid #58182b;
+  border-radius: 50%;
+  box-shadow:
+    inset 2px 2px 2px #ffffff88,
+    0 1px 2px #76152a;
+  background: #aa1430;
+  &-red {
+    background: radial-gradient(circle at 35% 30%, #ffafa0, #e03743 45%, #8a162e);
+  }
+  &-amber {
+    background: radial-gradient(circle at 35% 30%, #ffffce, #efc13c 45%, #8f6529);
+  }
+  &-green {
+    background: radial-gradient(circle at 35% 30%, #d3ff99, #79bb51 45%, #357041);
+  }
+}
+.housing-label {
+  position: absolute;
+  top: 58px;
+  left: 118px;
+  font: bold 15px t.$mono;
+  letter-spacing: 3px;
+  color: #791d30;
+  text-shadow: 0 1px #f86c7d;
+  span {
+    display: block;
+    margin-top: 3px;
+    font:
+      6px Arial,
+      sans-serif;
+    letter-spacing: 1.1px;
+  }
+}
+.housing-seam {
+  position: absolute;
+  left: 0;
+  right: 9px;
+  bottom: 0;
+  height: 23px;
+  border-bottom: 3px solid #87182f;
+  clip-path: polygon(0 0, 42% 0, 53% 75%, 100% 75%, 100% 100%, 51% 100%, 40% 25%, 0 25%);
+  background: #72162b;
+  box-shadow: 0 2px #fc6076;
+}
+.native-controls {
+  position: absolute;
+  right: 16px;
+  top: 14px;
+  display: flex;
+  gap: 4px;
+  -webkit-app-region: no-drag;
+  button {
+    width: 23px;
+    height: 23px;
+    padding: 0;
+    color: #ffc0c4;
+    background: #9b2039;
+    border: 1px solid #77162f;
+    box-shadow: inset 0 1px #ee6070;
+    border-radius: 50%;
+    font-size: 15px;
+  }
+}
+.left-interior {
+  position: absolute;
+  top: 124px;
+  left: 23px;
+  width: 327px;
+  z-index: 2;
+}
+.shell-screw {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border: 1px solid #74182c;
+  border-radius: 50%;
+  background: #a3273e;
+  box-shadow:
+    inset 1px 1px 2px #64122b,
+    0 1px #fa6374;
+  bottom: 13px;
+  &::after {
+    content: '';
+    width: 5px;
+    height: 1px;
+    background: #622333;
+    position: absolute;
+    top: 3px;
+    left: 1px;
+    transform: rotate(-40deg);
+  }
+}
+.screw-bottom-left {
+  left: 16px;
+}
+.screw-bottom-right {
+  right: 19px;
+}
+.device-hint {
+  position: absolute;
+  bottom: 7px;
+  width: min(90%, 750px);
+  margin: 0;
+  text-align: center;
+  color: #525e54;
+  font: 10px t.$mono;
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+  pointer-events: none;
+}
+.device-scene-native .device-hint {
+  bottom: 3px;
+  background: #191b1dba;
+  color: #d7dbcc;
+  width: auto;
+  max-width: 90%;
+  border-radius: 10px;
+  padding: 4px 10px;
+  font-size: 8px;
+}
+@media (max-height: 730px) {
+  .scene-caption {
+    display: none;
+  }
+}

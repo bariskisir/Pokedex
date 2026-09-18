@@ -1,101 +1,15 @@
-<!-- Defines the renderer document shell for the Electron Pokedex application. -->
-<!DOCTYPE html>
+<!doctype html>
+<!-- Hosts the React renderer and limits network access to documented API assets. -->
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pokédex</title>
-  <link rel="icon" href="./pokeball.png">
-  <link rel="stylesheet" href="./styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
-</head>
-
-<body>
-  <div id="app">
-    <div id="pokedex">
-      <div id="left-panel">
-        <div class="left-top">
-          <div class="big-blue-glass">
-            <div class="reflection"></div>
-          </div>
-          <div class="small-lights">
-            <div class="light red"></div>
-            <div class="light yellow"></div>
-            <div class="light green"></div>
-          </div>
-        </div>
-        <div class="left-curve-cutout"></div>
-        <div class="screen-border">
-          <div class="screen-lights">
-            <div class="screen-light red"></div>
-            <div class="screen-light red"></div>
-          </div>
-          <div id="main-screen">
-            <div id="startup-overlay">
-              <div>BOOTING POKéOS...</div>
-            </div>
-            <div class="pokemon-data" style="display: none;">
-              <h2 id="pkmn-name">--</h2>
-              <div class="image-container">
-                <div id="shiny-toggle" title="Toggle Shiny Mode">✨</div>
-                <img id="pkmn-image" src="" alt="" />
-              </div>
-              <div id="pkmn-types"></div>
-              <div id="pkmn-abilities" class="abilities-container"></div>
-              <div id="pkmn-effectiveness"></div>
-              <p id="flavor-text" class="flavor-text">Awaiting input...</p>
-              <div class="stats-row">
-                <span id="pkmn-height">HT: --</span>
-                <span id="pkmn-weight">WT: --</span>
-              </div>
-              <div id="pkmn-stats" class="stats-container"></div>
-              <div class="moves-container">
-                <h3>- MOVES -</h3>
-                <ul id="pokemon-moves"></ul>
-              </div>
-              <div class="evolution-container" style="display: none;">
-                <h3>- EVOLUTION -</h3>
-                <div id="pokemon-evolutions"></div>
-              </div>
-            </div>
-            <div id="type-list-screen" style="display: none;">
-              <div class="type-list-header">
-                <div id="type-list-back">←</div>
-                <h2 id="type-list-title">TYPE</h2>
-              </div>
-              <div id="type-pokemon-list"></div>
-            </div>
-          </div>
-          <div class="screen-bottom">
-            <div class="screen-light red bottom-dot"></div>
-            <div class="screen-speaker"></div>
-          </div>
-        </div>
-      </div>
-      <div id="right-panel">
-        <div class="right-top-cutout"></div>
-        <div id="right-inner">
-          <div class="right-top-screen">
-            <div id="search-container">
-              <input type="text" id="search-input" placeholder="Search Pokémon..." autocomplete="off" />
-              <div id="search-clear">×</div>
-            </div>
-            <div id="list-container">
-              <ul id="pokemon-list">
-                <li class="loading">Loading...</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="window-controls">
-        <button id="btn-minimize">-</button>
-        <button id="btn-close">X</button>
-      </div>
-    </div>
-  </div>
-  <script type="module" src="./app.ts"></script>
-</body>
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#d63849" />
+    <title>Pokédex</title>
+    <link rel="icon" href="./pokeball.png" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="./main.tsx"></script>
+  </body>
 </html>

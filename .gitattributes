@@ -1,0 +1,4 @@
+# Normalizes source line endings while preserving binary assets.
+* text=auto eol=lf
+*.png binary
+*.gif binary

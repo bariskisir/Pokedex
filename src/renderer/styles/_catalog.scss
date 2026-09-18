@@ -1,0 +1,190 @@
+/* Fits the full searchable national catalog into the secondary green LCD. */
+@use 'tokens' as t;
+
+.catalog-bezel {
+  height: 403px;
+  padding: 6px;
+  border: 3px solid #70152c;
+  background: #2a3534;
+  border-radius: 7px;
+  box-shadow:
+    inset 0 2px 3px #142623,
+    0 1px #f2707f;
+}
+.catalog {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  padding: 9px;
+  color: #bbd6a5;
+  background: linear-gradient(120deg, #203b2e, #152d26);
+  border: 2px solid #102d25;
+  border-radius: 3px;
+  box-shadow: inset 0 0 14px #101e18;
+  font-family: t.$mono;
+  &-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-size: 9px;
+    letter-spacing: 1px;
+    margin: 0;
+  }
+  .micro-label {
+    font-size: 5px;
+    letter-spacing: 0;
+  }
+  &-footer {
+    font-size: 6px;
+    color: #86a480;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 6px;
+  }
+  .status {
+    font-size: 8px;
+    margin: 3px 0;
+  }
+}
+.search-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid #57724c;
+  padding: 3px 5px;
+  border-radius: 2px;
+  background: #112b22;
+  > span {
+    font-size: 15px;
+  }
+  input {
+    width: 100%;
+    min-width: 0;
+    color: #d1e7b5;
+    background: none;
+    border: 0;
+    font: 9px t.$mono;
+    padding: 1px;
+    &::placeholder {
+      color: #8ba77b;
+    }
+  }
+}
+.filters {
+  display: flex;
+  gap: 4px;
+  margin: 6px 0 0;
+  select {
+    min-width: 0;
+    width: 50%;
+    background: #2b4834;
+    color: #c7dab2;
+    border: 1px solid #5a764e;
+    border-radius: 2px;
+    padding: 3px 1px;
+    font: 8px t.$mono;
+    text-transform: capitalize;
+  }
+  button {
+    flex: 1;
+    font: 8px t.$mono;
+    padding: 3px;
+    background: #2b4834;
+    color: #c7dab2;
+    &[aria-pressed='true'] {
+      background: #b1c791;
+      color: #183528;
+    }
+  }
+}
+.list-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0 3px;
+  font-size: 7px;
+  color: #92b184;
+  button {
+    border: 0;
+    padding: 0;
+    background: none;
+    color: #accc95;
+    font-size: 7px;
+  }
+}
+.pokemon-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  scrollbar-color: #6b8a58 #162f24;
+  li {
+    margin: 1px 0;
+  }
+  button {
+    display: flex;
+    width: 100%;
+    gap: 8px;
+    align-items: center;
+    background: transparent;
+    border: 1px solid transparent;
+    text-align: left;
+    padding: 5px 3px;
+    color: #c7ddb1;
+    border-radius: 1px;
+    &[aria-current='true'] {
+      background: #99b47b;
+      border-color: #b4cd94;
+      color: #18382a;
+      .list-number,
+      .list-generation {
+        color: #304e30;
+      }
+    }
+  }
+}
+.list-number {
+  font: 8px t.$mono;
+  color: #8bab7e;
+  min-width: 34px;
+}
+.list-text {
+  flex: 1;
+  min-width: 0;
+}
+.list-name {
+  display: block;
+  text-transform: uppercase;
+  font: bold 9px t.$mono;
+  overflow-wrap: anywhere;
+}
+.list-generation {
+  display: block;
+  font-size: 6px;
+  color: #a1ba91;
+  margin-top: 3px;
+}
+.list-favorite {
+  color: #d0d383;
+  font-size: 9px;
+}
+.connection-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #b1cb84;
+}

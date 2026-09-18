@@ -1,6 +1,6 @@
 {
   "name": "pokedex-electron",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "A professional Electron Pokédex with retro aesthetics.",
   "type": "module",
   "main": "dist/main/main.cjs",
@@ -26,23 +26,48 @@
   "scripts": {
     "start": "npm run build && electron .",
     "dev": "vite --configLoader native",
-    "clean": "node scripts/clean-dist.cjs",
-    "build": "npm run clean && npm run build:renderer && npm run build:main",
+    "clean": "node scripts/clean.ts",
+    "build": "npm run typecheck && npm run clean && npm run build:renderer && npm run build:main",
     "build:renderer": "vite build --configLoader native",
     "build:main": "tsc -p tsconfig.main.json",
     "preview": "vite preview --configLoader native",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.main.json --noEmit",
+    "lint": "biome lint . && node scripts/check-comments.ts",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "test:live": "node scripts/check-live.ts",
+    "preview:record": "node scripts/record-preview.ts",
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm test",
+    "release:check": "node scripts/check-release.ts",
+    "package:check": "node scripts/check-package.ts",
     "prepack": "npm run build"
   },
+  "engines": {
+    "node": ">=24.15.0"
+  },
   "dependencies": {
-    "electron": "41.10.3"
+    "electron": "44.4.2"
   },
   "devDependencies": {
-    "@types/node": "^24.10.1",
-    "typescript": "^5.9.3",
-    "vite": "7.3.5"
-  },
-  "overrides": {
-    "picomatch": "4.0.4",
-    "postcss": "8.5.14"
+    "@babel/parser": "8.0.5",
+    "@biomejs/biome": "2.5.14",
+    "@playwright/test": "1.63.0",
+    "@types/node": "26.6.1",
+    "@types/pngjs": "6.0.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.1",
+    "gifenc": "1.0.3",
+    "pngjs": "7.0.0",
+    "prettier": "3.9.8",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "sass": "1.104.1",
+    "typescript": "7.0.2",
+    "vite": "8.3.0",
+    "vitest": "5.0.1",
+    "zod": "4.6.5"
   }
 }
