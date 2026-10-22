@@ -39,7 +39,7 @@ jobs:
         run: npm run package:check
       - name: Retain failure reports
         if: failure()
-        uses: actions/upload-artifact@v7.0.1
+        uses: actions/upload-artifact@v7.0.2
         with:
           name: test-results-${{ matrix.os }}-${{ matrix.node }}
           path: test-results/
