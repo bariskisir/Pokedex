@@ -51,23 +51,23 @@
     "electron": "44.7.2"
   },
   "devDependencies": {
-    "@babel/parser": "8.0.5",
-    "@biomejs/biome": "2.5.14",
-    "@playwright/test": "1.63.0",
-    "@types/node": "26.6.1",
+    "@babel/parser": "8.0.7",
+    "@biomejs/biome": "2.6.2",
+    "@playwright/test": "1.64.1",
+    "@types/node": "26.6.5",
     "@types/pngjs": "6.0.5",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
-    "@vitejs/plugin-react": "6.1.1",
+    "@vitejs/plugin-react": "6.1.2",
     "gifenc": "1.0.3",
     "pngjs": "7.0.0",
-    "prettier": "3.9.8",
-    "react": "19.3.0",
-    "react-dom": "19.3.0",
-    "sass": "1.104.1",
+    "prettier": "3.9.10",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "sass": "1.106.1",
     "typescript": "7.0.2",
-    "vite": "8.3.4",
+    "vite": "8.3.5",
     "vitest": "5.0.5",
-    "zod": "4.6.5"
+    "zod": "4.6.7"
   }
 }
