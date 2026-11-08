@@ -48,7 +48,7 @@
     "node": ">=24.15.0"
   },
   "dependencies": {
-    "electron": "45.0.0"
+    "electron": "45.2.3"
   },
   "devDependencies": {
     "@babel/parser": "8.0.5",
